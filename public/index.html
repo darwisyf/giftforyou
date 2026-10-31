@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Birthday Surprise 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--a:#ff4d8d;--b:#ff9a8b;--bg1:#fff0f5;--bg2:#ffe3ec;--dark:#4a1029;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,sans-serif;color:var(--dark);background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+.script{font-family:'Dancing Script',cursive}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999}
+
+/* ---------- Buttons ---------- */
+.btn{border:none;border-radius:999px;padding:12px 22px;font-size:15px;font-weight:600;transition:transform .15s,box-shadow .15s,opacity .15s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,var(--a),var(--b));color:#fff;box-shadow:0 8px 20px -6px var(--a)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px -6px var(--a)}
+.btn-ghost{background:#fff;color:var(--dark);border:1.5px solid rgba(0,0,0,.08)}
+.btn-ghost:hover{border-color:var(--a);color:var(--a)}
+.btn-lg{padding:16px 32px;font-size:17px}
+.icon-btn{background:none;border:1px solid rgba(0,0,0,.1);border-radius:8px;padding:5px 10px;font-size:13px;color:inherit}
+.icon-btn:hover{border-color:var(--a);color:var(--a)}
+.icon-btn.danger:hover{border-color:#e11d48;color:#e11d48}
+
+/* ---------- Builder ---------- */
+.b-head{text-align:center;padding:40px 20px 10px}
+.b-logo{font-family:'Dancing Script',cursive;font-size:clamp(36px,6vw,54px);font-weight:700;background:linear-gradient(135deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.b-head p{max-width:560px;margin:8px auto 0;opacity:.75;font-size:15px}
+.b-main{max-width:860px;margin:0 auto;padding:20px 16px 140px}
+.card{background:#fff;border-radius:22px;box-shadow:0 10px 40px -18px rgba(0,0,0,.25);padding:26px;margin-bottom:22px}
+.card>h2{margin:0 0 6px;font-size:20px;display:flex;align-items:center;gap:12px}
+.num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+.hint{margin:0 0 18px;font-size:13.5px;opacity:.65}
+.field{margin-bottom:16px}
+.field>label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.inp{width:100%;border:1.5px solid #ecdfe5;border-radius:12px;padding:11px 14px;font:inherit;font-size:15px;color:inherit;background:#fffdfe;transition:border-color .15s,box-shadow .15s}
+.inp:focus{outline:none;border-color:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 15%,transparent)}
+textarea.inp{resize:vertical;min-height:110px;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.themes{display:flex;flex-wrap:wrap;gap:10px}
+.theme-chip{display:flex;align-items:center;gap:8px;border:1.5px solid #ecdfe5;border-radius:999px;padding:7px 14px 7px 8px;cursor:pointer;font-size:14px;user-select:none}
+.theme-chip input{display:none}
+.theme-chip .sw{width:22px;height:22px;border-radius:50%}
+.theme-chip:has(input:checked){border-color:var(--a);box-shadow:0 0 0 3px color-mix(in srgb,var(--a) 18%,transparent);font-weight:600}
+.qcard,.scard{border:1.5px dashed #ecdfe5;border-radius:16px;padding:16px;margin-bottom:14px}
+.qhead,.shead{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;margin-bottom:10px;color:var(--a)}
+.shead .tools{display:flex;gap:6px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.opt{display:flex;align-items:center;gap:8px}
+.opt input[type=radio]{width:20px;height:20px;accent-color:var(--a);flex:none;cursor:pointer}
+.letter{width:26px;height:26px;border-radius:8px;background:var(--bg2);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex:none}
+.opt .inp{padding:9px 12px;font-size:14px}
+.drop{display:block;border:2px dashed color-mix(in srgb,var(--a) 45%,#fff);border-radius:18px;padding:30px;text-align:center;cursor:pointer;background:var(--bg1);transition:background .15s}
+.drop:hover,.drop.over{background:var(--bg2)}
+.drop input{display:none}
+.drop .big{font-size:34px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:18px}
+.pitem{background:var(--bg1);border-radius:14px;padding:8px}
+.pitem img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block}
+.pitem .inp{margin-top:8px;padding:7px 10px;font-size:13px}
+.pitem .tools{display:flex;justify-content:space-between;margin-top:6px}
+.b-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,.06);padding:12px 16px;display:flex;align-items:center;gap:10px;justify-content:flex-end;z-index:50}
+.b-bar .status{margin-right:auto;font-size:13px;opacity:.65}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:14px;font-size:14px;opacity:0;transition:all .25s;z-index:1000;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast ul{margin:6px 0 0;padding-left:18px}
+
+/* ---------- Gift: shared ---------- */
+.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+.panel{background:rgba(255,255,255,.92);border-radius:28px;box-shadow:0 30px 70px -25px rgba(0,0,0,.35);padding:40px 32px;max-width:580px;width:100%;text-align:center;animation:pop .6s cubic-bezier(.2,1.4,.4,1) both;position:relative;z-index:2}
+@keyframes pop{from{opacity:0;transform:scale(.85) translateY(30px)}to{opacity:1;transform:none}}
+.bigemoji{font-size:72px;display:inline-block;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+.panel h1{font-family:'Dancing Script',cursive;font-size:clamp(34px,7vw,48px);margin:12px 0 6px;line-height:1.15;color:var(--a)}
+.panel .for{font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:12px;opacity:.6}
+.panel p.lead{font-size:16px;line-height:1.7;opacity:.85;margin:14px 0 26px;white-space:pre-wrap}
+.edit-fab{position:fixed;top:14px;right:14px;z-index:60;font-size:13px;padding:9px 16px}
+.hearts{position:absolute;inset:0;pointer-events:none;z-index:1}
+.hearts span{position:absolute;bottom:-40px;font-size:22px;opacity:.6;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+
+/* ---------- Quiz ---------- */
+.qprog{display:flex;justify-content:space-between;font-size:13px;font-weight:600;opacity:.7;margin-bottom:8px}
+.bar{height:8px;background:var(--bg2);border-radius:99px;overflow:hidden;margin-bottom:26px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));border-radius:99px;transition:width .5s}
+.qtext{font-size:clamp(20px,4vw,24px);font-weight:600;line-height:1.4;margin:0 0 22px}
+.qopts{display:grid;gap:12px;text-align:left}
+.qopt{display:flex;align-items:center;gap:14px;width:100%;background:#fff;border:2px solid #f0e4ea;border-radius:16px;padding:14px 16px;font-size:16px;color:inherit;transition:all .18s}
+.qopt:hover:not(:disabled){border-color:var(--a);transform:translateX(4px)}
+.qopt .letter{width:32px;height:32px;font-size:14px}
+.qopt:disabled{cursor:default}
+.qopt.correct{border-color:#10b981;background:#ecfdf5}
+.qopt.correct .letter{background:#10b981;color:#fff}
+.qopt.wrong{border-color:#f43f5e;background:#fff1f2;animation:shake .4s}
+.qopt.wrong .letter{background:#f43f5e;color:#fff}
+.qopt.dim{opacity:.5}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.feedback{min-height:28px;margin:18px 0 6px;font-weight:600;font-size:16px}
+.next-wrap{min-height:56px}
+.score{font-size:72px;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;margin:10px 0}
+
+/* ---------- Main birthday page ---------- */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;position:relative;overflow:hidden}
+.hero .cake{font-size:clamp(70px,14vw,110px);animation:bob 2.6s ease-in-out infinite;position:relative;z-index:2}
+.hero h1{font-family:'Dancing Script',cursive;font-size:clamp(48px,11vw,112px);line-height:1.05;margin:10px 0;background:linear-gradient(135deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;z-index:2;animation:pop .9s .2s cubic-bezier(.2,1.4,.4,1) both;padding:0 6px}
+.hero .from{font-size:18px;opacity:.75;position:relative;z-index:2}
+.scroll-hint{position:absolute;bottom:26px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;opacity:.55;animation:bob 2s infinite;z-index:2}
+.balloons{position:absolute;inset:0;pointer-events:none;z-index:1}
+.balloon{position:absolute;bottom:-160px;width:64px;height:80px;border-radius:50% 50% 48% 48%;animation:float linear infinite;opacity:.85}
+.balloon::after{content:'';position:absolute;left:50%;top:100%;width:1px;height:70px;background:rgba(0,0,0,.2)}
+.balloon::before{content:'';position:absolute;left:28%;top:16%;width:14px;height:22px;border-radius:50%;background:rgba(255,255,255,.45);transform:rotate(25deg)}
+@keyframes float{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-65vh) translateX(25px)}100%{transform:translateY(-135vh) translateX(-15px)}}
+.content{max-width:800px;margin:0 auto;padding:10px 18px 60px}
+.sec{background:rgba(255,255,255,.92);border-radius:26px;padding:36px 32px;margin-bottom:34px;box-shadow:0 20px 50px -25px rgba(0,0,0,.3)}
+.sec h2{font-family:'Dancing Script',cursive;font-size:clamp(32px,6vw,44px);color:var(--a);margin:0 0 14px;line-height:1.2}
+.sec .txt{white-space:pre-wrap;line-height:1.9;font-size:17px;font-weight:300;word-wrap:break-word}
+.gallery h2{text-align:center}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px;padding:10px 4px}
+.polaroid{margin:0;background:#fff;padding:10px 10px 14px;border-radius:6px;box-shadow:0 12px 30px -12px rgba(0,0,0,.35);transform:rotate(var(--r,0deg));transition:transform .3s;cursor:zoom-in}
+.polaroid:hover{transform:rotate(0) scale(1.05);z-index:3;position:relative}
+.polaroid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:3px}
+.polaroid figcaption{font-family:'Dancing Script',cursive;font-size:21px;text-align:center;margin-top:8px;min-height:10px}
+.closing{text-align:center}
+.closing .txt{font-size:19px}
+.sig{font-family:'Dancing Script',cursive;font-size:34px;color:var(--a);margin-top:18px}
+.endbar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:10px 0 50px}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.lb{position:fixed;inset:0;background:rgba(10,5,10,.92);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:500;padding:20px}
+.lb.open{display:flex}
+.lb img{max-width:92vw;max-height:78vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.lb .cap{color:#fff;font-family:'Dancing Script',cursive;font-size:28px;margin-top:14px;text-align:center}
+.lb button{position:absolute;background:rgba(255,255,255,.15);color:#fff;border:none;width:48px;height:48px;border-radius:50%;font-size:22px}
+.lb button:hover{background:rgba(255,255,255,.3)}
+.lb .x{top:18px;right:18px}.lb .pv{left:14px;top:50%}.lb .nx{right:14px;top:50%}
+
+/* ---------- Section photos / music ---------- */
+.drop.small{padding:14px;border-radius:14px;margin-top:4px}
+.drop.small .big{font-size:22px;display:inline;margin-right:6px}
+.scard .pgrid{margin-top:12px}
+.s-imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px;margin-top:26px;padding:4px}
+.s-imgs.one{grid-template-columns:minmax(0,420px);justify-content:center}
+.polaroid figcaption{line-height:1.25;word-wrap:break-word}
+.mstatus{font-size:13px;margin-top:6px;min-height:18px}
+.mstatus.ok{color:#059669}.mstatus.bad{color:#e11d48}
+.music{position:fixed;left:14px;bottom:14px;z-index:400;background:#fff;border-radius:16px;box-shadow:0 14px 40px -12px rgba(0,0,0,.4);padding:8px;display:flex;flex-direction:column;gap:6px;width:300px;max-width:calc(100vw - 28px);animation:pop .5s both}
+.music .mbar{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:600;padding:0 4px;color:var(--a)}
+.music .mbar button{background:none;border:none;font-size:15px;color:inherit;padding:2px 6px}
+.music iframe{border:0;border-radius:10px;width:100%;display:block}
+.music.min{width:auto;padding:6px 8px}
+.music.min .frame{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.music.min .mlabel{display:none}
+.music .note{display:inline-block;animation:bob 1.6s infinite}
+
+/* ---------- Share link / loading ---------- */
+.linkcard{border:2px solid var(--a);background:linear-gradient(135deg,#fff,var(--bg1))}
+.linkrow{display:flex;gap:10px}
+.linkrow .inp{font-weight:600;color:var(--a)}
+.linkbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.linkbtns a{text-decoration:none}
+.mgrid{display:grid;grid-template-columns:1fr 150px;gap:14px}
+.btn:disabled{opacity:.6;cursor:wait;transform:none}
+
+@media (max-width:640px){
+  .mgrid{grid-template-columns:1fr}
+  .linkrow{flex-direction:column}
+  .grid2,.opts{grid-template-columns:1fr}
+  .card{padding:20px}
+  .panel{padding:32px 20px}
+  .sec{padding:28px 20px}
+  .b-bar{flex-wrap:wrap;justify-content:center}
+  .b-bar .status{width:100%;text-align:center;margin:0}
+  .b-bar .btn{padding:10px 16px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="musicHost"></div>
+<canvas id="confetti"></canvas>
+<script id="gift-data" type="application/json">null</script>
+<script>
+(function () {
+  'use strict';
+
+  /* Capture pristine page source BEFORE anything renders – used to export the gift file */
+  const SOURCE_HTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const DRAFT_KEY = 'bdayWish.draft.v1';
+  const LINK_KEY = 'bdayWish.link.v1';      // { id, editKey } of the link this draft is published to
+  const ON_WEB = /^https?:$/.test(location.protocol);
+  const getLink = () => { try { const l = JSON.parse(localStorage.getItem(LINK_KEY)); return l && l.id && l.editKey ? l : null; } catch (e) { return null; } };
+  const setLink = l => { try { l ? localStorage.setItem(LINK_KEY, JSON.stringify(l)) : localStorage.removeItem(LINK_KEY); } catch (e) {} };
+  const linkUrl = id => `${location.origin}/g/${id}`;
+  const app = document.getElementById('app');
+
+  const THEMES = {
+    rose:     { name: 'Rose',     a: '#ff4d8d', b: '#ff9a8b', bg1: '#fff0f5', bg2: '#ffe3ec', dark: '#4a1029' },
+    lavender: { name: 'Lavender', a: '#8b5cf6', b: '#e879f9', bg1: '#f7f2ff', bg2: '#ece3ff', dark: '#2e1065' },
+    ocean:    { name: 'Ocean',    a: '#0ea5e9', b: '#2dd4bf', bg1: '#effaff', bg2: '#dcf3ff', dark: '#0c3a52' },
+    sunset:   { name: 'Sunset',   a: '#f97316', b: '#f43f5e', bg1: '#fff7ed', bg2: '#ffe8d6', dark: '#4a1d06' },
+    mint:     { name: 'Mint',     a: '#10b981', b: '#84cc16', bg1: '#f0fdf6', bg2: '#dcfce9', dark: '#0b3b2c' }
+  };
+  const Q_PLACEHOLDERS = [
+    'e.g. Where did we first meet?',
+    'e.g. What is my favorite food?',
+    'e.g. What was the first movie we watched together?',
+    'e.g. What nickname do I always call you?',
+    'e.g. Where is my dream travel destination?'
+  ];
+  const LETTERS = 'ABCD';
+
+  /* ---------------- Helpers ---------------- */
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const clone = o => JSON.parse(JSON.stringify(o));
+  const emptyQ = () => ({ q: '', options: ['', '', '', ''], answer: -1 });
+
+  function blank() {
+    return {
+      v: 1, theme: 'rose', to: '', from: '',
+      introTitle: 'Someone made something special for you',
+      introText: "But first... let's see how well you really know me 😉",
+      quiz: Array.from({ length: 5 }, emptyQ),
+      quizEndMsg: "No matter your score, you'll always be my favorite person. Ready for your surprise?",
+      heroTitle: '',
+      sections: [emptySec(), emptySec(), emptySec()],
+      images: [],
+      music: '',
+      musicStart: '',
+      closing: ''
+    };
+  }
+  function emptySec() { return { title: '', text: '', images: [] }; }
+  /* Only allow our own image formats: inline JPEG/PNG/WebP data, or photos uploaded to this site */
+  const SAFE_SRC = /^(data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+\/=]+|\/api\/img\/[a-z0-9]+)$/;
+  const normImgs = arr => (Array.isArray(arr) ? arr : []).filter(i => i && typeof i.src === 'string' && SAFE_SRC.test(i.src)).map(i => ({ src: i.src, caption: String(i.caption || '') }));
+
+  /* "1:26", "86", "1m26s", "1:02:03" -> seconds. '' -> 0. Invalid -> NaN */
+  function parseTime(v) {
+    v = String(v == null ? '' : v).trim().toLowerCase();
+    if (!v) return 0;
+    let m = v.match(/^(?:(\d+):)?(\d{1,3}):([0-5]\d)$/);
+    if (m) return (+(m[1] || 0)) * 3600 + (+m[2]) * 60 + (+m[3]);
+    if (/^\d+$/.test(v)) return +v;
+    m = v.match(/^(?:(\d+)h)?\s*(?:(\d+)m)?\s*(?:(\d+)s)?$/);
+    if (m && (m[1] || m[2] || m[3])) return (+(m[1] || 0)) * 3600 + (+(m[2] || 0)) * 60 + (+(m[3] || 0));
+    return NaN;
+  }
+  const fmtTime = t => { t = Math.max(0, t | 0); const h = (t / 3600) | 0, mm = ((t % 3600) / 60) | 0, ss = String(t % 60).padStart(2, '0'); return h ? `${h}:${String(mm).padStart(2, '0')}:${ss}` : `${mm}:${ss}`; };
+
+  /* Parse a YouTube or Spotify link into an embeddable player description */
+  function parseMusic(url) {
+    url = String(url || '').trim();
+    if (!url) return null;
+    let m = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    if (m) {
+      const id = m[1];
+      const t = url.match(/[?&#](?:t|start)=([0-9hms]+)/i);
+      const linkStart = t ? (parseTime(t[1]) || 0) : 0;
+      return { kind: 'youtube', label: 'YouTube video', id, linkStart, h: 158,
+        embed: st => `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&playsinline=1&rel=0&start=${st}` };
+    }
+    m = url.match(/open\.spotify\.com\/(?:intl-[a-z]{2}(?:-[a-z]{2})?\/)?(?:embed\/)?(track|album|playlist|episode|show)\/([A-Za-z0-9]+)/i);
+    if (!m) m = url.match(/^spotify:(track|album|playlist|episode|show):([A-Za-z0-9]+)$/i);
+    if (m) {
+      const type = m[1].toLowerCase();
+      const id = m[2];
+      return { kind: 'spotify', label: 'Spotify ' + type, type, id, linkStart: 0, h: type === 'track' || type === 'episode' ? 80 : 152,
+        embed: () => `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0` };
+    }
+    return false;
+  }
+
+  function normalize(d) {
+    const out = Object.assign(blank(), d || {});
+    const qz = Array.isArray(out.quiz) ? out.quiz.slice(0, 5) : [];
+    while (qz.length < 5) qz.push(emptyQ());
+    out.quiz = qz.map(q => ({
+      q: (q && q.q) || '',
+      options: [0, 1, 2, 3].map(i => (q && q.options && q.options[i]) || ''),
+      answer: q && typeof q.answer === 'number' ? q.answer : -1
+    }));
+    out.sections = (Array.isArray(out.sections) ? out.sections : []).map(s => ({ title: (s && s.title) || '', text: (s && s.text) || '', images: normImgs(s && s.images) }));
+    out.images = normImgs(out.images);
+    out.music = typeof out.music === 'string' ? out.music : '';
+    out.musicStart = out.musicStart == null ? '' : String(out.musicStart);
+    if (!THEMES[out.theme]) out.theme = 'rose';
+    return out;
+  }
+
+  /* Start second actually used: the "Start at" field wins, otherwise a ?t= in the YouTube link */
+  function songStart(d) {
+    const m = parseMusic(d.music);
+    if (!m) return 0;
+    const t = parseTime(d.musicStart);
+    return d.musicStart.trim() && !isNaN(t) ? t : m.linkStart;
+  }
+
+  function setPath(obj, path, val) {
+    const k = path.split('.');
+    let o = obj;
+    for (let i = 0; i < k.length - 1; i++) o = o[k[i]];
+    o[k[k.length - 1]] = val;
+  }
+
+  function applyTheme(key) {
+    const t = THEMES[key] || THEMES.rose;
+    const r = document.documentElement.style;
+    r.setProperty('--a', t.a); r.setProperty('--b', t.b);
+    r.setProperty('--bg1', t.bg1); r.setProperty('--bg2', t.bg2); r.setProperty('--dark', t.dark);
+  }
+
+  let toastTimer;
+  function toast(html, ms) {
+    let el = document.querySelector('.toast');
+    if (!el) { el = document.createElement('div'); el.className = 'toast'; document.body.appendChild(el); }
+    el.innerHTML = html;
+    requestAnimationFrame(() => el.classList.add('show'));
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), ms || 3000);
+  }
+
+  /* ---------------- Confetti ---------------- */
+  const cv = document.getElementById('confetti');
+  const cx = cv.getContext('2d');
+  let parts = [], running = false;
+  function resizeCv() {
+    const dpr = window.devicePixelRatio || 1;
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  addEventListener('resize', resizeCv); resizeCv();
+  function confetti(n) {
+    n = n || 180;
+    const t = THEMES[(gift && gift.theme) || 'rose'];
+    const cols = [t.a, t.b, '#ffd166', '#06d6a0', '#4cc9f0', '#ffffff', '#f72585'];
+    for (let i = 0; i < n; i++) {
+      const left = i % 2 === 0;
+      parts.push({
+        x: left ? -10 : innerWidth + 10, y: innerHeight * 0.85,
+        vx: (left ? 1 : -1) * (5 + Math.random() * 12), vy: -(12 + Math.random() * 14),
+        w: 6 + Math.random() * 6, h: 8 + Math.random() * 10,
+        r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.35,
+        c: cols[(Math.random() * cols.length) | 0]
+      });
+    }
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+  function tick() {
+    cx.clearRect(0, 0, innerWidth, innerHeight);
+    for (const p of parts) {
+      p.vy += 0.32; p.vx *= 0.985; p.vy *= 0.995;
+      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r);
+      cx.fillStyle = p.c; cx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r)));
+      cx.restore();
+    }
+    parts = parts.filter(p => p.y < innerHeight + 50);
+    if (parts.length) requestAnimationFrame(tick);
+    else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+
+  /* =========================================================
+     BUILDER (form the sender fills in)
+     ========================================================= */
+  let state = null;
+  let saveTimer = null;
+
+  function loadDraft() {
+    try { const raw = localStorage.getItem(DRAFT_KEY); return raw ? normalize(JSON.parse(raw)) : null; }
+    catch (e) { return null; }
+  }
+  function saveDraft() {
+    const st = document.getElementById('saveStatus');
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(state));
+      if (st) st.textContent = '✓ Draft saved on this device';
+    } catch (e) {
+      if (st) st.textContent = '⚠ Draft too large to autosave (photos). Download the gift to keep your work.';
+    }
+  }
+  function scheduleSave() {
+    const st = document.getElementById('saveStatus');
+    if (st) st.textContent = 'Saving…';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveDraft, 500);
+  }
+
+  function field(label, path, value, opts) {
+    opts = opts || {};
+    const ph = esc(opts.ph || '');
+    const ctl = opts.area
+      ? `<textarea class="inp" rows="${opts.rows || 5}" data-path="${path}" placeholder="${ph}">${esc(value)}</textarea>`
+      : `<input class="inp" data-path="${path}" value="${esc(value)}" placeholder="${ph}" maxlength="${opts.max || 200}">`;
+    return `<div class="field"><label>${label}</label>${ctl}</div>`;
+  }
+
+  function quizCard(q, i) {
+    return `<div class="qcard">
+      <div class="qhead"><span>Question ${i + 1}</span><span style="font-weight:400;font-size:12px;opacity:.7">● = correct answer</span></div>
+      <input class="inp" data-path="quiz.${i}.q" value="${esc(q.q)}" placeholder="${esc(Q_PLACEHOLDERS[i])}" maxlength="200">
+      <div class="opts">${q.options.map((o, j) => `
+        <div class="opt">
+          <input type="radio" name="ans${i}" data-path="quiz.${i}.answer" value="${j}" ${q.answer === j ? 'checked' : ''} title="Mark as the correct answer">
+          <span class="letter">${LETTERS[j]}</span>
+          <input class="inp" data-path="quiz.${i}.options.${j}" value="${esc(o)}" placeholder="Answer ${LETTERS[j]}" maxlength="120">
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  function sectionCard(s, i, n) {
+    return `<div class="scard">
+      <div class="shead"><span>Section ${i + 1}</span>
+        <span class="tools">
+          ${i > 0 ? `<button class="icon-btn" data-action="mv-section" data-i="${i}" data-d="-1" title="Move up">↑</button>` : ''}
+          ${i < n - 1 ? `<button class="icon-btn" data-action="mv-section" data-i="${i}" data-d="1" title="Move down">↓</button>` : ''}
+          <button class="icon-btn danger" data-action="rm-section" data-i="${i}">✕ Remove</button>
+        </span></div>
+      ${field('Title', `sections.${i}.title`, s.title, { ph: 'e.g. The day I met you' })}
+      ${field('Text', `sections.${i}.text`, s.text, { area: true, rows: 7, ph: 'Write your story, memories or wishes here. Line breaks are kept.' })}
+      <div class="field" style="margin-bottom:0"><label>Photos for this section (optional)</label>
+        <label class="drop small" data-s="${i}">
+          <input type="file" class="fileIn" data-s="${i}" accept="image/*" multiple>
+          <span class="big">🖼️</span><b>Add photos</b> <span style="opacity:.65">or drop them here · ${s.images.length} added</span>
+        </label>
+        ${s.images.length ? `<div class="pgrid">${s.images.map((im, j) => photoItem(im, j, s.images.length, i)).join('')}</div>` : ''}
+      </div>
+    </div>`;
+  }
+
+  /* s = section index, or undefined for the main gallery */
+  function photoItem(img, i, n, s) {
+    const sec = s == null ? '' : ` data-s="${s}"`;
+    const path = s == null ? `images.${i}.caption` : `sections.${s}.images.${i}.caption`;
+    return `<div class="pitem">
+      <img src="${esc(img.src)}" alt="">
+      <input class="inp" data-path="${path}" value="${esc(img.caption)}" placeholder='Caption, e.g. "This is when we…"' maxlength="150">
+      <div class="tools">
+        <span>
+          ${i > 0 ? `<button class="icon-btn" data-action="mv-img" data-i="${i}"${sec} data-d="-1" title="Move left">←</button>` : ''}
+          ${i < n - 1 ? `<button class="icon-btn" data-action="mv-img" data-i="${i}"${sec} data-d="1" title="Move right">→</button>` : ''}
+        </span>
+        <button class="icon-btn danger" data-action="rm-img" data-i="${i}"${sec}>✕</button>
+      </div>
+    </div>`;
+  }
+
+  function musicStatusHTML(d) {
+    const p = parseMusic(d.music);
+    if (p === null) return { cls: '', txt: 'Paste a YouTube or Spotify link (song, album or playlist). Leave empty for no music.' };
+    if (p === false) return { cls: 'bad', txt: "✗ That link isn't recognized. Use a youtube.com / youtu.be or open.spotify.com link." };
+    if (isNaN(parseTime(d.musicStart))) return { cls: 'bad', txt: '✗ Start time should look like 1:26 (minutes:seconds) or 86 (seconds).' };
+    const st = songStart(d);
+    let txt = `✓ ${p.label} detected` + (st ? `, starting at ${fmtTime(st)}` : ', starting from the beginning');
+    txt += p.kind === 'youtube'
+      ? '. It starts playing when they press Start, and loops back to that point.'
+      : '. They tap ▶ on the player to listen' + (st ? (p.type === 'track' ? ' and it jumps to that point.' : '; the start time applies to the first song.') : '.');
+    return { cls: 'ok', txt };
+  }
+
+  function renderBuilder(keepScroll) {
+    const y = window.scrollY;
+    gift = null;
+    stopMusic();
+    const ms = musicStatusHTML(state);
+    const link = getLink();
+    applyTheme(state.theme);
+    document.title = 'Birthday Wish Maker 🎂';
+    app.innerHTML = `
+    <header class="b-head">
+      <div class="b-logo">🎂 Birthday Wish Maker</div>
+      <p>Fill in the form, preview it, then create a link and send it to your special person.</p>
+    </header>
+    <main class="b-main">
+      ${link ? `<section class="card linkcard">
+        <h2>🎉 Your gift link is live</h2>
+        <p class="hint">Send this link to ${esc(state.to) || 'them'}. If you change anything below, press <b>Update link</b> and this same link shows the new version.</p>
+        <div class="linkrow">
+          <input class="inp" id="linkUrl" readonly value="${esc(linkUrl(link.id))}">
+          <button class="btn btn-primary" data-action="copy-link">📋 Copy</button>
+        </div>
+        <div class="linkbtns">
+          <a class="btn btn-ghost" href="${esc(linkUrl(link.id))}" target="_blank" rel="noopener">Open ↗</a>
+          <a class="btn btn-ghost" href="https://wa.me/?text=${encodeURIComponent('🎂 I made something for you: ' + linkUrl(link.id))}" target="_blank" rel="noopener">💬 Share on WhatsApp</a>
+          <button class="btn btn-ghost" data-action="publish-new">➕ Save as a separate new link</button>
+        </div>
+      </section>` : ''}
+      <section class="card">
+        <h2><span class="num">1</span> The basics</h2>
+        <p class="hint">Who is this for, and who is it from?</p>
+        <div class="grid2">
+          ${field('Birthday person\'s name *', 'to', state.to, { ph: 'e.g. Sarah', max: 60 })}
+          ${field('Your name', 'from', state.from, { ph: 'e.g. Your love, Bahij', max: 60 })}
+        </div>
+        ${field('Opening title', 'introTitle', state.introTitle, { ph: 'Someone made something special for you' })}
+        ${field('Opening message', 'introText', state.introText, { area: true, rows: 3 })}
+        <div class="field"><label>Color theme</label>
+          <div class="themes">${Object.keys(THEMES).map(k => `
+            <label class="theme-chip"><input type="radio" name="theme" data-path="theme" value="${k}" ${state.theme === k ? 'checked' : ''}>
+            <span class="sw" style="background:linear-gradient(135deg,${THEMES[k].a},${THEMES[k].b})"></span>${THEMES[k].name}</label>`).join('')}
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><span class="num">2</span> Quiz game</h2>
+        <p class="hint">Write up to 5 multiple-choice questions and pick the correct answer for each with the circle. Leave a question empty to skip it.</p>
+        ${state.quiz.map(quizCard).join('')}
+        ${field('Message after the quiz', 'quizEndMsg', state.quizEndMsg, { area: true, rows: 3 })}
+      </section>
+
+      <section class="card">
+        <h2><span class="num">3</span> Birthday message</h2>
+        <p class="hint">Add as many sections as you want. Each one has a title, a long text and optional photos with captions.</p>
+        ${field('Main headline', 'heroTitle', state.heroTitle, { ph: 'Leave empty for "Happy Birthday, ' + (state.to || 'Name') + '!"' })}
+        <div id="sections">${state.sections.map((s, i) => sectionCard(s, i, state.sections.length)).join('')}</div>
+        <button class="btn btn-ghost" data-action="add-section">＋ Add section</button>
+        <div style="height:18px"></div>
+        ${field('Closing message', 'closing', state.closing, { area: true, rows: 4, ph: 'e.g. I love you more than words can say. Happy birthday! ❤️' })}
+      </section>
+
+      <section class="card">
+        <h2><span class="num">4</span> Photo gallery</h2>
+        <p class="hint">Optional extra gallery at the end of the page. Photos are resized automatically, and each one can have its own caption.</p>
+        <label class="drop">
+          <input type="file" class="fileIn" accept="image/*" multiple>
+          <div class="big">📸</div>
+          <div><b>Click to choose photos</b> or drag &amp; drop them here</div>
+          <div style="font-size:12px;opacity:.6;margin-top:4px">${state.images.length} photo(s) added</div>
+        </label>
+        <div class="pgrid">${state.images.map((im, i) => photoItem(im, i, state.images.length)).join('')}</div>
+      </section>
+
+      <section class="card">
+        <h2><span class="num">5</span> Background song 🎵</h2>
+        <p class="hint">Pick "your song". It plays in a small player while they go through the quiz and the birthday page.</p>
+        <div class="mgrid">
+          <div class="field" style="margin-bottom:0"><label>YouTube or Spotify link</label>
+            <input class="inp" data-path="music" value="${esc(state.music)}" placeholder="e.g. https://youtu.be/xxxxxxxxxxx or https://open.spotify.com/track/…" maxlength="300">
+          </div>
+          <div class="field" style="margin-bottom:0"><label>Start at (optional)</label>
+            <input class="inp" data-path="musicStart" value="${esc(state.musicStart)}" placeholder="e.g. 1:26" maxlength="10" inputmode="numeric">
+          </div>
+        </div>
+        <div class="mstatus ${ms.cls}" id="musicStatus">${esc(ms.txt)}</div>
+      </section>
+    </main>
+    <div class="b-bar">
+      <span class="status" id="saveStatus">Your draft is saved automatically on this device</span>
+      <button class="btn btn-ghost" data-action="reset">✨ New gift</button>
+      <button class="btn btn-ghost" data-action="preview">👀 Preview</button>
+      <button class="btn btn-ghost" data-action="download">⬇️ Download file</button>
+      <button class="btn btn-primary" data-action="publish" id="pubBtn">${link ? '🔄 Update link' : '🔗 Create link'}</button>
+    </div>`;
+    window.scrollTo(0, keepScroll ? y : 0);
+  }
+
+  function onBuilderInput(e) {
+    const t = e.target;
+    const p = t.dataset && t.dataset.path;
+    if (!p || !state || gift) return;
+    if (t.type === 'radio' && !t.checked) return;
+    let v = t.value;
+    if (p.endsWith('.answer')) v = parseInt(v, 10);
+    setPath(state, p, v);
+    if (p === 'theme') applyTheme(v);
+    if (p === 'music' || p === 'musicStart') {
+      const st = document.getElementById('musicStatus'), ms = musicStatusHTML(state);
+      if (st) { st.className = 'mstatus ' + ms.cls; st.textContent = ms.txt; }
+    }
+    scheduleSave();
+  }
+
+  async function compressImage(file) {
+    const url = URL.createObjectURL(file);
+    try {
+      const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+      const MAX = 1280;
+      const scale = Math.min(1, MAX / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * scale);
+      c.height = Math.round(img.naturalHeight * scale);
+      const g = c.getContext('2d');
+      g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+      g.drawImage(img, 0, 0, c.width, c.height);
+      return c.toDataURL('image/jpeg', 0.82);
+    } finally { URL.revokeObjectURL(url); }
+  }
+
+  async function addFiles(files, sIdx) {
+    const target = Number.isInteger(sIdx) && state.sections[sIdx] ? state.sections[sIdx].images : state.images;
+    const list = Array.from(files || []).filter(f => f.type.startsWith('image/'));
+    if (!list.length) return;
+    toast(`Processing ${list.length} photo(s)…`, 10000);
+    let ok = 0;
+    for (const f of list) {
+      try { target.push({ src: await compressImage(f), caption: '' }); ok++; }
+      catch (e) { /* skip unreadable file */ }
+    }
+    renderBuilder(true);
+    saveDraft();
+    toast(`✓ Added ${ok} photo(s)` + (ok < list.length ? ` (${list.length - ok} couldn't be read)` : ''));
+  }
+
+  function validate(d) {
+    const errs = [];
+    if (!d.to.trim()) errs.push("Enter the birthday person's name.");
+    d.quiz.forEach((q, i) => {
+      if (!q.q.trim()) return;
+      const filled = q.options.filter(o => o.trim()).length;
+      if (filled < 2) errs.push(`Question ${i + 1}: add at least 2 answers.`);
+      if (q.answer < 0 || !q.options[q.answer] || !q.options[q.answer].trim()) errs.push(`Question ${i + 1}: mark the correct answer (it can't be empty).`);
+    });
+    if (parseMusic(d.music) === false) errs.push('The song link isn\'t a valid YouTube or Spotify link (or clear it).');
+    if (isNaN(parseTime(d.musicStart))) errs.push('The song start time should look like 1:26 or 86.');
+    return errs;
+  }
+  function showErrors(errs) {
+    toast('<b>Please fix these first:</b><ul>' + errs.map(e => `<li>${esc(e)}</li>`).join('') + '</ul>', 5000);
+  }
+
+  async function toDataUrl(src) {
+    if (src.startsWith('data:')) return src;
+    const blob = await (await fetch(src)).blob();
+    return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(blob); });
+  }
+
+  async function downloadGift() {
+    const errs = validate(state);
+    if (errs.length) return showErrors(errs);
+    const data = clone(state);
+    try {
+      for (const im of [...data.images, ...data.sections.flatMap(s => s.images)]) im.src = await toDataUrl(im.src);
+    } catch (e) { return toast('⚠ Couldn\'t fetch your uploaded photos. Check your connection and try again.', 5000); }
+    const json = JSON.stringify(data).replace(/</g, '\\u003c');
+    const re = /<script id="gift-data" type="application\/json">[\s\S]*?<\/script>/;
+    const html = SOURCE_HTML.replace(re, () => '<script id="gift-data" type="application/json">' + json + '<' + '/script>');
+    const blob = new Blob([html], { type: 'text/html' });
+    const a = document.createElement('a');
+    const slug = state.to.trim().replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase() || 'someone';
+    a.href = URL.createObjectURL(blob);
+    a.download = `happy-birthday-${slug}.html`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast('🎁 File downloaded! It works offline and can be sent as a file.', 4500);
+  }
+
+  /* ---------------- Publish to a shareable link (Netlify Functions + Blobs) ---------------- */
+  let publishing = false;
+  async function api(url, opts) {
+    const r = await fetch(url, opts);
+    let j = null; try { j = await r.json(); } catch (e) {}
+    return { ok: r.ok, status: r.status, j };
+  }
+  async function publish(asNew) {
+    if (publishing) return;
+    if (!ON_WEB) return toast('Links can only be created on the website itself. Here, use <b>Download file</b> instead.', 5000);
+    const errs = validate(state);
+    if (errs.length) return showErrors(errs);
+    publishing = true;
+    document.querySelectorAll('.b-bar .btn, .linkcard .btn').forEach(b => b.disabled = true);
+    try {
+      // 1) upload photos that are still only on this device; their src becomes a short /api/img/… URL
+      const pending = [...state.images, ...state.sections.flatMap(s => s.images)].filter(im => im.src.startsWith('data:'));
+      let n = 0;
+      for (const im of pending) {
+        toast(`Uploading photos… ${++n} / ${pending.length}`, 120000);
+        const blob = await (await fetch(im.src)).blob();
+        const r = await api('/api/img', { method: 'POST', headers: { 'content-type': blob.type || 'image/jpeg' }, body: blob });
+        if (!r.ok || !r.j || !r.j.url) throw new Error(`Photo upload failed (${r.status})`);
+        im.src = r.j.url;
+        saveDraft();
+      }
+      // 2) save the gift: update the existing link, or create a new one
+      toast('Saving your gift…', 120000);
+      const body = JSON.stringify(state);
+      const link = asNew ? null : getLink();
+      let created = false;
+      let r = link ? await api('/api/gifts/' + link.id, { method: 'PUT', headers: { 'content-type': 'application/json', 'x-edit-key': link.editKey }, body }) : null;
+      if (!r || r.status === 404 || r.status === 403) {
+        r = await api('/api/gifts', { method: 'POST', headers: { 'content-type': 'application/json' }, body });
+        if (!r.ok || !r.j || !r.j.id) throw new Error((r.j && r.j.error) || `Saving failed (${r.status})`);
+        setLink({ id: r.j.id, editKey: r.j.editKey });
+        created = true;
+      } else if (!r.ok) throw new Error((r.j && r.j.error) || `Saving failed (${r.status})`);
+      renderBuilder(false);
+      toast(created ? '🎉 Your link is ready! Copy it from the top of the page.' : '✓ Link updated. The same link now shows your changes.', 4500);
+    } catch (e) {
+      toast('⚠ ' + esc(e.message || 'Something went wrong') + '. Please try again.', 6000);
+    } finally {
+      publishing = false;
+      document.querySelectorAll('.b-bar .btn, .linkcard .btn').forEach(b => b.disabled = false);
+    }
+  }
+
+  function onBuilderClick(e) {
+    const b = e.target.closest('[data-action]');
+    if (!b || gift) return;
+    const act = b.dataset.action;
+    const i = parseInt(b.dataset.i, 10);
+    const d = parseInt(b.dataset.d, 10);
+    const s = parseInt(b.dataset.s, 10);
+    const imgs = Number.isInteger(s) ? state.sections[s].images : state.images;
+    const move = (arr) => { const j = i + d; if (j < 0 || j >= arr.length) return; [arr[i], arr[j]] = [arr[j], arr[i]]; };
+    switch (act) {
+      case 'add-section': state.sections.push(emptySec()); renderBuilder(true); scheduleSave(); break;
+      case 'rm-section':
+        if ((state.sections[i].title || state.sections[i].text || state.sections[i].images.length) && !confirm('Remove this section?')) return;
+        state.sections.splice(i, 1); renderBuilder(true); scheduleSave(); break;
+      case 'mv-section': move(state.sections); renderBuilder(true); scheduleSave(); break;
+      case 'rm-img': imgs.splice(i, 1); renderBuilder(true); scheduleSave(); break;
+      case 'mv-img': move(imgs); renderBuilder(true); scheduleSave(); break;
+      case 'reset':
+        if (!confirm('Start a new gift? The form will be cleared.' + (getLink() ? ' Your existing link keeps working, but you won\'t be able to edit it anymore.' : ''))) return;
+        state = blank(); setLink(null); try { localStorage.removeItem(DRAFT_KEY); } catch (er) {}
+        renderBuilder(false); break;
+      case 'publish': publish(false); break;
+      case 'publish-new':
+        if (!confirm('Create a separate new link? The current link stays as it is now and can no longer be edited from here.')) return;
+        publish(true); break;
+      case 'copy-link': {
+        const inp = document.getElementById('linkUrl');
+        const done = () => toast('📋 Link copied!');
+        if (navigator.clipboard) navigator.clipboard.writeText(inp.value).then(done, () => { inp.select(); document.execCommand('copy'); done(); });
+        else { inp.select(); document.execCommand('copy'); done(); }
+        break;
+      }
+      case 'preview': {
+        const errs = validate(state);
+        if (errs.length) return showErrors(errs);
+        startGift(clone(state), true); break;
+      }
+      case 'download': downloadGift(); break;
+    }
+  }
+
+  app.addEventListener('input', onBuilderInput);
+  app.addEventListener('change', onBuilderInput);
+  app.addEventListener('click', onBuilderClick);
+  const secIdx = el => { const v = parseInt(el.dataset.s, 10); return Number.isInteger(v) ? v : undefined; };
+  const dropOf = e => !gift && e.target.closest && e.target.closest('.drop');
+  app.addEventListener('change', e => { if (e.target.classList.contains('fileIn')) { addFiles(e.target.files, secIdx(e.target)); e.target.value = ''; } });
+  app.addEventListener('dragover', e => { const d = dropOf(e); if (d) { e.preventDefault(); d.classList.add('over'); } });
+  app.addEventListener('dragleave', e => { const d = dropOf(e); if (d) d.classList.remove('over'); });
+  app.addEventListener('drop', e => { const d = dropOf(e); if (d) { e.preventDefault(); d.classList.remove('over'); addFiles(e.dataTransfer.files, secIdx(d)); } });
+
+  /* =========================================================
+     GIFT EXPERIENCE (what the birthday person sees)
+     ========================================================= */
+  let gift = null, isPreview = false, quiz = [], qi = 0, score = 0, revealObs = null, allImgs = [];
+
+  /* ---------------- Music player (lives outside #app so it survives screen changes) ---------------- */
+  const musicHost = document.getElementById('musicHost');
+  function loadScript(src) {
+    return new Promise((res, rej) => { const el = document.createElement('script'); el.src = src; el.async = true; el.onload = res; el.onerror = rej; document.head.appendChild(el); });
+  }
+  const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(() => r(null), ms))]);
+  let ytP = null, spP = null, spApi = null, ytPlayer = null, spCtrl = null;
+  /* YouTube IFrame API -> resolves true when ready, null if blocked/slow */
+  function loadYT() {
+    if (window.YT && window.YT.Player) return Promise.resolve(true);
+    if (!ytP) ytP = withTimeout(new Promise(res => {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { if (prev) prev(); res(true); };
+      loadScript('https://www.youtube.com/iframe_api').catch(() => res(null));
+    }), 7000);
+    return ytP;
+  }
+  /* Spotify iFrame API -> resolves the API object, or null */
+  function loadSpotify() {
+    if (spApi) return Promise.resolve(spApi);
+    if (!spP) spP = withTimeout(new Promise(res => {
+      window.onSpotifyIframeApiReady = a => { spApi = a; res(a); };
+      loadScript('https://open.spotify.com/embed/iframe-api/v1').catch(() => res(null));
+    }), 8000);
+    return spP;
+  }
+  function preloadMusic() {
+    const m = gift && parseMusic(gift.music);
+    if (m && m.kind === 'youtube') loadYT();
+    if (m && m.kind === 'spotify') loadSpotify();
+  }
+
+  function startMusic() {
+    if (!gift || musicHost.firstChild) return;            // no gift or already playing
+    const m = parseMusic(gift.music);
+    if (!m) return;
+    const st = songStart(gift);
+    musicHost.innerHTML = `<div class="music">
+      <div class="mbar"><span><span class="note">🎵</span> <span class="mlabel">${m.kind === 'spotify' ? 'Tap ▶ to play our song' : 'Our song'}</span></span>
+        <button data-m="toggle" title="Minimize / expand">▾</button></div>
+      <div class="frame"><div id="mPlayer"></div></div>
+    </div>`;
+    const target = document.getElementById('mPlayer');
+    // Plain embed if the player API can't load (start time still works for YouTube)
+    const fallback = () => {
+      if (!target.isConnected) return;
+      target.outerHTML = `<iframe src="${m.embed(st)}" height="${m.h}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="Background song"></iframe>`;
+    };
+    if (m.kind === 'youtube') {
+      loadYT().then(ok => {
+        if (!target.isConnected) return;
+        if (!ok) return fallback();
+        ytPlayer = new YT.Player(target, {
+          height: String(m.h), width: '100%', videoId: m.id,
+          playerVars: { autoplay: 1, start: st, playsinline: 1, rel: 0 },
+          events: {
+            onReady: e => { try { e.target.playVideo(); } catch (er) {} },
+            onStateChange: e => { if (e.data === 0) { e.target.seekTo(st, true); e.target.playVideo(); } }  // loop from the chosen point
+          }
+        });
+      });
+    } else {
+      loadSpotify().then(a => {
+        if (!target.isConnected) return;
+        if (!a) return fallback();
+        a.createController(target, { uri: `spotify:${m.type}:${m.id}`, width: '100%', height: m.h }, ctrl => {
+          spCtrl = ctrl;
+          if (!st) return;
+          let jumped = false;    // jump to the start point the first time it starts playing
+          ctrl.addListener('playback_update', e => {
+            const d = e && e.data;
+            if (jumped || !d || d.isPaused) return;
+            jumped = true;
+            if ((d.position || 0) < st * 1000 - 1500) ctrl.seek(st);
+          });
+        });
+      });
+    }
+  }
+  function stopMusic() {
+    try { if (ytPlayer && ytPlayer.destroy) ytPlayer.destroy(); } catch (e) {}
+    try { if (spCtrl && spCtrl.destroy) spCtrl.destroy(); } catch (e) {}
+    ytPlayer = spCtrl = null;
+    if (musicHost) musicHost.innerHTML = '';
+  }
+  musicHost.addEventListener('click', e => {
+    const b = e.target.closest('[data-m="toggle"]');
+    if (!b) return;
+    const min = musicHost.querySelector('.music').classList.toggle('min');
+    b.textContent = min ? '▴' : '▾';
+  });
+
+  function heartsHTML() {
+    const em = ['💖', '💕', '🎈', '✨', '🎉', '💗'];
+    let s = '<div class="hearts">';
+    for (let i = 0; i < 14; i++) {
+      s += `<span style="left:${Math.random() * 100}%;animation-duration:${8 + Math.random() * 10}s;animation-delay:${-Math.random() * 15}s;font-size:${16 + Math.random() * 18}px">${em[i % em.length]}</span>`;
+    }
+    return s + '</div>';
+  }
+  function editFab() { return isPreview ? '<button class="btn btn-ghost edit-fab" data-g="back">✏️ Back to editor</button>' : ''; }
+
+  function startGift(data, preview) {
+    gift = normalize(data);
+    isPreview = !!preview;
+    applyTheme(gift.theme);
+    document.title = `Happy Birthday, ${gift.to || 'you'}! 🎂`;
+    quiz = gift.quiz
+      .filter(q => q.q.trim() && q.answer >= 0 && (q.options[q.answer] || '').trim())
+      .map(q => ({ q: q.q, opts: q.options.map((t, j) => ({ t, correct: j === q.answer })).filter(o => o.t.trim()) }));
+    qi = 0; score = 0;
+    preloadMusic();
+    showIntro();
+  }
+
+  function showIntro() {
+    window.scrollTo(0, 0);
+    app.innerHTML = `${editFab()}<div class="screen">${heartsHTML()}
+      <div class="panel">
+        <div class="bigemoji">💌</div>
+        <div class="for">For ${esc(gift.to)}</div>
+        <h1>${esc(gift.introTitle || 'Someone made something special for you')}</h1>
+        <p class="lead">${esc(gift.introText)}</p>
+        <button class="btn btn-primary btn-lg" data-g="start">${quiz.length ? 'Start the quiz 🎮' : 'Open it 💝'}</button>
+      </div></div>`;
+  }
+
+  function showQuestion() {
+    const q = quiz[qi];
+    app.innerHTML = `${editFab()}<div class="screen">${heartsHTML()}
+      <div class="panel" style="text-align:left">
+        <div class="qprog"><span>Question ${qi + 1} of ${quiz.length}</span><span>⭐ ${score}</span></div>
+        <div class="bar"><i style="width:${(qi / quiz.length) * 100}%"></i></div>
+        <p class="qtext">${esc(q.q)}</p>
+        <div class="qopts">${q.opts.map((o, j) => `
+          <button class="qopt" data-g="ans" data-j="${j}"><span class="letter">${LETTERS[j]}</span><span>${esc(o.t)}</span></button>`).join('')}
+        </div>
+        <div class="feedback" id="fb"></div>
+        <div class="next-wrap" id="nx" style="text-align:center"></div>
+      </div></div>`;
+    requestAnimationFrame(() => { const bar = app.querySelector('.bar i'); if (bar) bar.style.width = ((qi + 1) / quiz.length * 100) + '%'; });
+  }
+
+  function answer(j) {
+    const q = quiz[qi];
+    const btns = app.querySelectorAll('.qopt');
+    btns.forEach(b => b.disabled = true);
+    const right = q.opts[j].correct;
+    const correctIdx = q.opts.findIndex(o => o.correct);
+    btns.forEach((b, k) => {
+      if (k === correctIdx) b.classList.add('correct');
+      else if (k === j) b.classList.add('wrong');
+      else b.classList.add('dim');
+    });
+    const fb = document.getElementById('fb');
+    if (right) {
+      score++;
+      const yay = ['Yay! You got it! 🎉', 'Correct! You know me so well 🥰', "That's right! 💯", 'Perfect! 😍'];
+      fb.innerHTML = `<span style="color:#059669">${yay[Math.floor(Math.random() * yay.length)]}</span>`;
+      confetti(60);
+    } else {
+      fb.innerHTML = `<span style="color:#e11d48">Oops! The answer was "${esc(q.opts[correctIdx].t)}" 😜</span>`;
+    }
+    const last = qi === quiz.length - 1;
+    document.getElementById('nx').innerHTML = `<button class="btn btn-primary" data-g="next">${last ? 'See my score ✨' : 'Next question →'}</button>`;
+  }
+
+  function showResult() {
+    const n = quiz.length, ratio = score / n;
+    const title = ratio === 1 ? 'Perfect score! 💯' : ratio >= 0.6 ? 'So close! 🥰' : ratio > 0 ? 'Hmm... we need more dates 😜' : 'Oh no! 🙈';
+    app.innerHTML = `${editFab()}<div class="screen">${heartsHTML()}
+      <div class="panel">
+        <div class="for">Your score</div>
+        <div class="score">${score} / ${n}</div>
+        <h1>${title}</h1>
+        <p class="lead">${esc(gift.quizEndMsg)}</p>
+        <button class="btn btn-primary btn-lg" data-g="unwrap">Unwrap your gift 🎁</button>
+      </div></div>`;
+    if (ratio === 1) confetti(200);
+  }
+
+  function balloonsHTML() {
+    const t = THEMES[gift.theme];
+    const cols = [t.a, t.b, '#ffd166', '#4cc9f0', '#06d6a0', '#f72585'];
+    let s = '<div class="balloons">';
+    for (let i = 0; i < 12; i++) {
+      const size = 0.7 + Math.random() * 0.6;
+      s += `<span class="balloon" style="left:${Math.random() * 95}%;background:${cols[i % cols.length]};animation-duration:${11 + Math.random() * 9}s;animation-delay:${-Math.random() * 16}s;transform:scale(${size});width:${64 * size}px;height:${80 * size}px"></span>`;
+    }
+    return s + '</div>';
+  }
+
+  function showMain() {
+    window.scrollTo(0, 0);
+    const title = gift.heroTitle.trim() || `Happy Birthday, ${gift.to}!`;
+    const secs = gift.sections.filter(s => s.title.trim() || s.text.trim() || s.images.length);
+    allImgs = [];
+    const polaroid = im => {
+      const i = allImgs.push(im) - 1;
+      return `<figure class="polaroid" data-g="lb" data-i="${i}" style="--r:${(Math.random() * 8 - 4).toFixed(1)}deg">
+        <img src="${esc(im.src)}" alt="${esc(im.caption)}" loading="lazy">
+        ${im.caption.trim() ? `<figcaption>${esc(im.caption)}</figcaption>` : ''}
+      </figure>`;
+    };
+    app.innerHTML = `${editFab()}
+      <header class="hero">${balloonsHTML()}
+        <div class="cake">🎂</div>
+        <h1>${esc(title)}</h1>
+        ${gift.from ? `<div class="from">with love, from <b>${esc(gift.from)}</b></div>` : ''}
+        <div class="scroll-hint">scroll down ↓</div>
+      </header>
+      <main class="content">
+        ${secs.map(s => `<article class="sec reveal">
+          ${s.title.trim() ? `<h2>${esc(s.title)}</h2>` : ''}
+          ${s.text.trim() ? `<div class="txt">${esc(s.text)}</div>` : ''}
+          ${s.images.length ? `<div class="s-imgs${s.images.length === 1 ? ' one' : ''}">${s.images.map(polaroid).join('')}</div>` : ''}
+        </article>`).join('')}
+        ${gift.images.length ? `<section class="sec gallery reveal">
+          <h2>Our moments 📸</h2>
+          <div class="g-grid">${gift.images.map(polaroid).join('')}</div></section>` : ''}
+        ${(gift.closing.trim() || gift.from) ? `<section class="sec closing reveal">
+          <div style="font-size:46px">💝</div>
+          ${gift.closing.trim() ? `<div class="txt">${esc(gift.closing)}</div>` : ''}
+          ${gift.from ? `<div class="sig">— ${esc(gift.from)}</div>` : ''}
+        </section>` : ''}
+        <div class="endbar">
+          <button class="btn btn-primary" data-g="boom">🎉 More confetti!</button>
+          <button class="btn btn-ghost" data-g="replay">↺ Play again</button>
+        </div>
+      </main>
+      <div class="lb" id="lb">
+        <button class="x" data-g="lbx" aria-label="Close">✕</button>
+        <button class="pv" data-g="lbp" aria-label="Previous">‹</button>
+        <img id="lbImg" alt="">
+        <div class="cap" id="lbCap"></div>
+        <button class="nx" data-g="lbn" aria-label="Next">›</button>
+      </div>`;
+    if (revealObs) revealObs.disconnect();
+    if ('IntersectionObserver' in window) {
+      revealObs = new IntersectionObserver(ents => ents.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); revealObs.unobserve(en.target); } }), { threshold: 0.12 });
+      app.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    } else app.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    setTimeout(() => confetti(260), 300);
+    setTimeout(() => confetti(160), 1500);
+  }
+
+  let lbIndex = 0;
+  function openLb(i) {
+    if (!allImgs.length) return;
+    lbIndex = (i + allImgs.length) % allImgs.length;
+    const im = allImgs[lbIndex];
+    document.getElementById('lbImg').src = im.src;
+    document.getElementById('lbCap').textContent = im.caption || '';
+    document.getElementById('lb').classList.add('open');
+    const multi = allImgs.length > 1;
+    app.querySelector('.lb .pv').style.display = multi ? '' : 'none';
+    app.querySelector('.lb .nx').style.display = multi ? '' : 'none';
+  }
+  function closeLb() { const lb = document.getElementById('lb'); if (lb) lb.classList.remove('open'); }
+
+  app.addEventListener('click', e => {
+    if (!gift) return;
+    if (e.target.id === 'lb') return closeLb();
+    const b = e.target.closest('[data-g]');
+    if (!b) return;
+    switch (b.dataset.g) {
+      case 'back': renderBuilder(false); break;
+      case 'start': startMusic(); quiz.length ? showQuestion() : showMain(); break;
+      case 'ans': answer(parseInt(b.dataset.j, 10)); break;
+      case 'next': qi++; qi < quiz.length ? showQuestion() : showResult(); break;
+      case 'unwrap': startMusic(); showMain(); break;
+      case 'boom': confetti(240); break;
+      case 'replay': qi = 0; score = 0; showIntro(); break;
+      case 'lb': openLb(parseInt(b.dataset.i, 10)); break;
+      case 'lbx': closeLb(); break;
+      case 'lbp': openLb(lbIndex - 1); break;
+      case 'lbn': openLb(lbIndex + 1); break;
+    }
+  });
+  document.addEventListener('keydown', e => {
+    const lb = document.getElementById('lb');
+    if (!gift || !lb || !lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') openLb(lbIndex - 1);
+    if (e.key === 'ArrowRight') openLb(lbIndex + 1);
+  });
+
+  /* =========================================================
+     BOOT
+     ========================================================= */
+  function message(emoji, title, text) {
+    app.innerHTML = `<div class="screen">${heartsHTML()}<div class="panel"><div class="bigemoji">${emoji}</div><h1>${title}</h1>${text ? `<p class="lead">${text}</p>` : ''}</div></div>`;
+  }
+  function openBuilder(data) {
+    state = data ? normalize(data) : (loadDraft() || blank());
+    renderBuilder(false);
+  }
+
+  let embedded = null;
+  try { embedded = JSON.parse(document.getElementById('gift-data').textContent); } catch (e) { embedded = null; }
+  const wantsEdit = location.hash === '#edit';
+  const linkMatch = location.pathname.match(/^\/g\/([a-z0-9]+)\/?$/i);
+
+  if (embedded) {
+    // Downloaded gift file
+    wantsEdit ? openBuilder(embedded) : startGift(embedded, false);
+  } else if (linkMatch) {
+    // Shared link: /g/<id>
+    const id = linkMatch[1].toLowerCase();
+    const mine = getLink();
+    if (wantsEdit && mine && mine.id === id) {
+      location.replace('/');                     // the editable draft for this link lives in the editor
+    } else {
+      message('🎁', 'Opening your surprise…', '');
+      fetch('/api/gifts/' + id)
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(d => startGift(d, false))
+        .catch(st => st === 404
+          ? message('😢', 'Gift not found', 'This link doesn\'t exist or was removed. Please double-check the link you received.')
+          : message('📡', 'Couldn\'t load the gift', 'Please check your internet connection and refresh the page.'));
+    }
+  } else {
+    openBuilder(null);                           // Editor
+  }
+})();
+</script>
+</body>
+</html>

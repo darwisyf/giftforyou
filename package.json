@@ -1,0 +1,8 @@
+{
+  "name": "birthday-wish",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@netlify/blobs": "latest"
+  }
+}

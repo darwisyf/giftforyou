@@ -1,0 +1,9 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+# Every gift link (/g/abc123) is served by the same page; the page loads the gift by its id
+[[redirects]]
+  from = "/g/*"
+  to = "/index.html"
+  status = 200
