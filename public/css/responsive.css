@@ -1,0 +1,15 @@
+/* Loaded last so these override the rules above */
+@media (max-width:640px){
+  .mgrid{grid-template-columns:1fr}
+  .linkrow{flex-direction:column}
+  .grid2,.opts{grid-template-columns:1fr}
+  .card{padding:20px}
+  .panel{padding:32px 20px}
+  .sec{padding:28px 20px}
+  .b-bar{flex-wrap:wrap;justify-content:center}
+  .b-left{width:100%;margin:0;align-items:center;text-align:center}
+  .b-bar{gap:8px;padding:10px}
+  .b-bar .btn{padding:9px 13px;font-size:13px}
+  .toast{top:130px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}

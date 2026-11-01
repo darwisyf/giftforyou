@@ -1,0 +1,25 @@
+/* Variables, reset, buttons, toast */
+:root{--a:#ff4d8d;--b:#ff9a8b;--bg1:#fff0f5;--bg2:#ffe3ec;--dark:#4a1029;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,sans-serif;color:var(--dark);background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+.script{font-family:'Dancing Script',cursive}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999}
+
+/* ---------- Buttons ---------- */
+.btn{border:none;border-radius:999px;padding:12px 22px;font-size:15px;font-weight:600;transition:transform .15s,box-shadow .15s,opacity .15s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,var(--a),var(--b));color:#fff;box-shadow:0 8px 20px -6px var(--a)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px -6px var(--a)}
+.btn-ghost{background:#fff;color:var(--dark);border:1.5px solid rgba(0,0,0,.08)}
+.btn-ghost:hover{border-color:var(--a);color:var(--a)}
+.btn-lg{padding:16px 32px;font-size:17px}
+.icon-btn{background:none;border:1px solid rgba(0,0,0,.1);border-radius:8px;padding:5px 10px;font-size:13px;color:inherit}
+.icon-btn:hover{border-color:var(--a);color:var(--a)}
+.icon-btn.danger:hover{border-color:#e11d48;color:#e11d48}
+
+/* ---------- Toast ---------- */
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%) translateY(-20px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:14px;font-size:14px;opacity:0;transition:all .25s;z-index:1000;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast ul{margin:6px 0 0;padding-left:18px}

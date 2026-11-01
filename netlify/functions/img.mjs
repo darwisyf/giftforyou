@@ -1,4 +1,4 @@
-// POST /api/img        -> upload one photo (raw JPEG/PNG/WebP body, max ~4 MB) -> { url }
+// POST /api/img        -> upload one photo (raw JPEG/PNG/WebP body, max 4 MB) -> { url }
 // GET  /api/img/:key   -> serve the photo
 import { getStore } from '@netlify/blobs';
 import { json, randomId } from '../lib/shared.mjs';
@@ -28,13 +28,9 @@ export default async (req, context) => {
     if (!/^[a-z0-9]{16}$/.test(key)) return json({ error: 'Not found' }, 404);
     const found = await store.getWithMetadata(key, { type: 'arrayBuffer' });
     if (!found) return json({ error: 'Not found' }, 404);
-    const type = (found.metadata && TYPES[found.metadata.type]) ? found.metadata.type : 'image/jpeg';
+    const type = found.metadata && TYPES[found.metadata.type] ? found.metadata.type : 'image/jpeg';
     return new Response(found.data, {
-      headers: {
-        'content-type': type,
-        'cache-control': 'public, max-age=31536000, immutable', // keys never change content
-        'x-content-type-options': 'nosniff'
-      }
+      headers: { 'content-type': type, 'cache-control': 'public, max-age=31536000, immutable', 'x-content-type-options': 'nosniff' }
     });
   }
 

@@ -1,8 +1,7 @@
-// POST /api/gifts       -> create a gift            -> { id, editKey }
+// POST /api/gifts       -> create a gift (needs a valid, unused x-access-code) -> { id, editKey }
 // GET  /api/gifts/:id   -> read a gift (public)
-// PUT  /api/gifts/:id   -> update (needs header x-edit-key)
-import { getStore } from '@netlify/blobs';
-import { json, randomId, sha256 } from '../lib/shared.mjs';
+// PUT  /api/gifts/:id   -> update my gift (needs x-edit-key; free, any number of times)
+import { json, randomId, giftsStore, codesStore, validId, ownGift, normCode, addEditKey } from '../lib/shared.mjs';
 
 const MAX_BODY = 500 * 1024; // photos are uploaded separately, so the gift itself is just text
 const IMG_SRC = /^\/api\/img\/[a-z0-9]{16}$/;
@@ -53,32 +52,41 @@ async function readGift(req) {
 }
 
 export default async (req, context) => {
-  const store = getStore({ name: 'gifts', consistency: 'strong' });
+  const store = giftsStore();
   const id = context.params.id ? String(context.params.id).toLowerCase() : null;
-  if (id && !/^[a-z0-9]{6,20}$/.test(id)) return json({ error: 'Not found' }, 404);
 
   if (req.method === 'GET' && id) {
+    if (!validId(id)) return json({ error: 'Not found' }, 404);
     const rec = await store.get(id, { type: 'json' });
     if (!rec) return json({ error: 'Not found' }, 404);
     return json(rec.data);
   }
 
   if (req.method === 'POST' && !id) {
+    // 1) the access code must exist and not be used yet
+    const code = normCode(req.headers.get('x-access-code'));
+    const codes = codesStore();
+    const c = code && await codes.get(code, { type: 'json' });
+    if (!c) return json({ error: "That code isn't valid. Please check it and try again.", reason: 'invalid' }, 403);
+    if (c.usedBy) return json({ error: 'This code was already used for another gift.', reason: 'used' }, 409);
+
     const { data, error } = await readGift(req);
     if (error) return error;
+
+    // 2) save the gift, then mark the code as used by it
     let newId;
     do { newId = randomId(8); } while (await store.getMetadata(newId));
-    const editKey = randomId(32);
     const now = Date.now();
-    await store.setJSON(newId, { data, editHash: await sha256(editKey), created: now, updated: now });
+    const rec = { data, code, created: now, updated: now };
+    const editKey = await addEditKey(rec);
+    await store.setJSON(newId, rec);
+    await codes.setJSON(code, { ...c, usedBy: newId, usedAt: now });
     return json({ id: newId, editKey }, 201);
   }
 
   if (req.method === 'PUT' && id) {
-    const rec = await store.get(id, { type: 'json' });
-    if (!rec) return json({ error: 'Not found' }, 404);
-    const key = req.headers.get('x-edit-key') || '';
-    if (!key || (await sha256(key)) !== rec.editHash) return json({ error: 'Not allowed to edit this gift' }, 403);
+    const { rec, error: denied } = await ownGift(req, id);
+    if (denied) return denied;
     const { data, error } = await readGift(req);
     if (error) return error;
     await store.setJSON(id, { ...rec, data, updated: Date.now() });

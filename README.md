@@ -1,34 +1,45 @@
-# Birthday Wish Maker
+# Wishy · Birthday Wish Maker
 
-## What's inside
-public/index.html            the whole website (editor + gift page)
-netlify/functions/gifts.mjs  saves and loads gifts            (/api/gifts)
-netlify/functions/img.mjs    saves and serves uploaded photos (/api/img)
-netlify/lib/shared.mjs       small helpers
-netlify.toml                 Netlify settings (+ makes /g/<id> links work)
-package.json                 installs @netlify/blobs (the storage)
+## The flow (manual payment + access codes)
+1. A user fills in the form and previews it for free.
+2. They press **Create link**. A dialog asks for an access code, with a
+   **Get one on WhatsApp** button that opens a chat with you.
+3. They pay you directly (bank transfer, e-wallet, etc.).
+4. You open **/admin.html**, generate a code (note who bought it) and press **Message**.
+   It copies a ready-to-send WhatsApp message with the code and their personal editor link.
+5. They type the code (or just open the editor link, which fills it in) and press **Create link**.
+   The code is used up and their gift link is live.
+6. **Update link** is free forever. Opening the editor link again, on any device,
+   reopens their gift for editing. Note: if two devices edit at the same time,
+   whichever presses Update link last wins.
 
-## Deploy (pick one)
-Drag-and-drop (Netlify Drop) only uploads static files and will NOT run the
-functions, so "Create link" won't work that way. Use one of these instead:
+## Project structure
+public/                          the website (served as-is, no build step)
+  index.html                     editor + gift page
+  admin.html                     your admin page (codes)
+  css/                           base, builder, gift, admin, responsive
+  js/main.js                     start: editor, editor link (?code=) or gift link
+  js/core/                       utils, themes, model (data), storage, api
+  js/ui/                         confetti, decorations
+  js/builder/                    editor, form templates, photos, publish
+  js/gift/                       quiz + birthday page, music player
+  js/admin/admin.js              admin page
+netlify/functions/
+  gifts.mjs                      /api/gifts        create (needs code) / read / update
+  img.mjs                        /api/img          photos
+  redeem.mjs                     /api/redeem       check a code / reopen a gift by code
+  admin.mjs                      /api/admin/codes  list + generate codes (password)
+  config.mjs                     /api/config       WhatsApp number + price text
+netlify/lib/shared.mjs           storage, codes, security helpers
 
-A) GitHub (easiest to keep updating)
-   1. Create a GitHub repo and upload this whole folder.
-   2. Netlify -> Add new project -> Import an existing project -> pick the repo.
-   3. Leave the build settings as they are (netlify.toml sets them) -> Deploy.
+## Setup
+In Netlify: Project configuration > Environment variables, add:
+  ADMIN_PASSWORD    a long password only you know (at least 8 characters)
+  WHATSAPP_NUMBER   your number with country code, no + or spaces, e.g. 6281234567890
+  PRICE_TEXT        shown on the WhatsApp button, e.g. Rp15.000   (optional)
+Then redeploy (Deploys > Trigger deploy).
 
-B) Netlify CLI
-   npm install -g netlify-cli
-   netlify login
-   netlify deploy --prod      (run inside this folder)
+Admin page: https://YOUR-SITE.netlify.app/admin.html
 
-No database or API keys to set up: Netlify Blobs is connected automatically.
-
-## How it works
-/            editor. Create link -> photos upload, gift is saved, you get /g/<id>
-/g/<id>      what the birthday person opens
-Update link  changes the same link (only from the browser that created it)
-New gift     clears the form so you can make a gift for someone else
-Download file  still makes a single offline HTML file
-
-Stored data can be seen/deleted in the Netlify dashboard -> your site -> Blobs.
+Deploy from GitHub (Netlify Drop does not run functions). Stored data is under your site > Blobs
+(stores: gifts, gift-images, codes).

@@ -1,0 +1,82 @@
+/* ---------- Gift: shared ---------- */
+.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+.panel{background:rgba(255,255,255,.92);border-radius:28px;box-shadow:0 30px 70px -25px rgba(0,0,0,.35);padding:40px 32px;max-width:580px;width:100%;text-align:center;animation:pop .6s cubic-bezier(.2,1.4,.4,1) both;position:relative;z-index:2}
+@keyframes pop{from{opacity:0;transform:scale(.85) translateY(30px)}to{opacity:1;transform:none}}
+.bigemoji{font-size:72px;display:inline-block;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+.panel h1{font-family:'Dancing Script',cursive;font-size:clamp(34px,7vw,48px);margin:12px 0 6px;line-height:1.15;color:var(--a)}
+.panel .for{font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:12px;opacity:.6}
+.panel p.lead{font-size:16px;line-height:1.7;opacity:.85;margin:14px 0 26px;white-space:pre-wrap}
+.edit-fab{position:fixed;top:14px;right:14px;z-index:60;font-size:13px;padding:9px 16px}
+.hearts{position:absolute;inset:0;pointer-events:none;z-index:1}
+.hearts span{position:absolute;bottom:-40px;font-size:22px;opacity:.6;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+
+/* ---------- Quiz ---------- */
+.qprog{display:flex;justify-content:space-between;font-size:13px;font-weight:600;opacity:.7;margin-bottom:8px}
+.bar{height:8px;background:var(--bg2);border-radius:99px;overflow:hidden;margin-bottom:26px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));border-radius:99px;transition:width .5s}
+.qtext{font-size:clamp(20px,4vw,24px);font-weight:600;line-height:1.4;margin:0 0 22px}
+.qopts{display:grid;gap:12px;text-align:left}
+.qopt{display:flex;align-items:center;gap:14px;width:100%;background:#fff;border:2px solid #f0e4ea;border-radius:16px;padding:14px 16px;font-size:16px;color:inherit;transition:all .18s}
+.qopt:hover:not(:disabled){border-color:var(--a);transform:translateX(4px)}
+.qopt .letter{width:32px;height:32px;font-size:14px}
+.qopt:disabled{cursor:default}
+.qopt.correct{border-color:#10b981;background:#ecfdf5}
+.qopt.correct .letter{background:#10b981;color:#fff}
+.qopt.wrong{border-color:#f43f5e;background:#fff1f2;animation:shake .4s}
+.qopt.wrong .letter{background:#f43f5e;color:#fff}
+.qopt.dim{opacity:.5}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.feedback{min-height:28px;margin:18px 0 6px;font-weight:600;font-size:16px}
+.next-wrap{min-height:56px}
+.score{font-size:72px;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;margin:10px 0}
+
+/* ---------- Main birthday page ---------- */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;position:relative;overflow:hidden}
+.hero .cake{font-size:clamp(70px,14vw,110px);animation:bob 2.6s ease-in-out infinite;position:relative;z-index:2}
+.hero h1{font-family:'Dancing Script',cursive;font-size:clamp(48px,11vw,112px);line-height:1.05;margin:10px 0;background:linear-gradient(135deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;z-index:2;animation:pop .9s .2s cubic-bezier(.2,1.4,.4,1) both;padding:0 6px}
+.hero .from{font-size:18px;opacity:.75;position:relative;z-index:2}
+.scroll-hint{position:absolute;bottom:26px;font-size:13px;letter-spacing:.15em;text-transform:uppercase;opacity:.55;animation:bob 2s infinite;z-index:2}
+.balloons{position:absolute;inset:0;pointer-events:none;z-index:1}
+.balloon{position:absolute;bottom:-160px;width:64px;height:80px;border-radius:50% 50% 48% 48%;animation:float linear infinite;opacity:.85}
+.balloon::after{content:'';position:absolute;left:50%;top:100%;width:1px;height:70px;background:rgba(0,0,0,.2)}
+.balloon::before{content:'';position:absolute;left:28%;top:16%;width:14px;height:22px;border-radius:50%;background:rgba(255,255,255,.45);transform:rotate(25deg)}
+@keyframes float{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-65vh) translateX(25px)}100%{transform:translateY(-135vh) translateX(-15px)}}
+.content{max-width:800px;margin:0 auto;padding:10px 18px 60px}
+.sec{background:rgba(255,255,255,.92);border-radius:26px;padding:36px 32px;margin-bottom:34px;box-shadow:0 20px 50px -25px rgba(0,0,0,.3)}
+.sec h2{font-family:'Dancing Script',cursive;font-size:clamp(32px,6vw,44px);color:var(--a);margin:0 0 14px;line-height:1.2}
+.sec .txt{white-space:pre-wrap;line-height:1.9;font-size:17px;font-weight:300;word-wrap:break-word}
+.gallery h2{text-align:center}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px;padding:10px 4px}
+.polaroid{margin:0;background:#fff;padding:10px 10px 14px;border-radius:6px;box-shadow:0 12px 30px -12px rgba(0,0,0,.35);transform:rotate(var(--r,0deg));transition:transform .3s;cursor:zoom-in}
+.polaroid:hover{transform:rotate(0) scale(1.05);z-index:3;position:relative}
+.polaroid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:3px}
+.polaroid figcaption{font-family:'Dancing Script',cursive;font-size:21px;text-align:center;margin-top:8px;min-height:10px}
+.closing{text-align:center}
+.closing .txt{font-size:19px}
+.sig{font-family:'Dancing Script',cursive;font-size:34px;color:var(--a);margin-top:18px}
+.endbar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:10px 0 50px}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.lb{position:fixed;inset:0;background:rgba(10,5,10,.92);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:500;padding:20px}
+.lb.open{display:flex}
+.lb img{max-width:92vw;max-height:78vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.lb .cap{color:#fff;font-family:'Dancing Script',cursive;font-size:28px;margin-top:14px;text-align:center}
+.lb button{position:absolute;background:rgba(255,255,255,.15);color:#fff;border:none;width:48px;height:48px;border-radius:50%;font-size:22px}
+.lb button:hover{background:rgba(255,255,255,.3)}
+.lb .x{top:18px;right:18px}.lb .pv{left:14px;top:50%}.lb .nx{right:14px;top:50%}
+
+/* ---------- Section photos / music player ---------- */
+.s-imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px;margin-top:26px;padding:4px}
+.s-imgs.one{grid-template-columns:minmax(0,420px);justify-content:center}
+.polaroid figcaption{line-height:1.25;word-wrap:break-word}
+.music{position:fixed;left:14px;bottom:14px;z-index:400;background:#fff;border-radius:16px;box-shadow:0 14px 40px -12px rgba(0,0,0,.4);padding:8px;display:flex;flex-direction:column;gap:6px;width:300px;max-width:calc(100vw - 28px);animation:pop .5s both}
+.music .mbar{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:600;padding:0 4px;color:var(--a)}
+.music .mbar button{background:none;border:none;font-size:15px;color:inherit;padding:2px 6px}
+.music iframe{border:0;border-radius:10px;width:100%;display:block}
+.music.min{width:auto;padding:6px 8px}
+.music.min .frame{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+.music.min .mlabel{display:none}
+.music .note{display:inline-block;animation:bob 1.6s infinite}
+
