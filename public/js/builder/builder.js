@@ -1,5 +1,5 @@
 // The editor: form, autosave, photos, preview, and the Create / Update link button
-import { app, esc, clone, setPath, toast, view } from '../core/utils.js';
+import { app, esc, clone, setPath, toast, view, copyText } from '../core/utils.js';
 import { applyTheme } from '../core/themes.js';
 import { blank, normalize, emptySec, validate, parseMusic, parseTime, fmtTime, songStart } from '../core/model.js';
 import { loadDraft, saveDraft, clearDraft, getLink, setLink, getCode, linkUrl } from '../core/storage.js';
@@ -8,6 +8,7 @@ import { compressImage } from './photos.js';
 import { createGift, updateGift } from './publish.js';
 import { startGift } from '../gift/gift.js';
 import { stopMusic } from '../gift/music.js';
+import { openQrMaker } from '../qr/qr-maker.js';
 
 let state = null;
 let cfg = { whatsapp: '', priceText: '' };
@@ -43,9 +44,9 @@ function render(keepScroll) {
   applyTheme(state.theme);
   document.title = 'Wishy · Birthday Wish Maker 🎂';
   const link = getLink();
+  const code = getCode();
   const ms = musicStatus(state);
 
-  const code = getCode();
   app.innerHTML = `${topBar(link)}
   <header class="b-head">
     <div class="b-logo">🎂 Birthday Wish Maker</div>
@@ -143,7 +144,7 @@ async function addFiles(files, sIdx) {
 /* ---------------- Create / update link ---------------- */
 function setBusy(on) {
   busy = on;
-  document.querySelectorAll('.b-bar .btn, .linkcard .btn, .modal .btn').forEach(b => { b.disabled = on; });
+  document.querySelectorAll('.b-bar .btn, .linkcard .btn, #codeModal .btn').forEach(b => { b.disabled = on; });
 }
 const progress = msg => toast(msg, 120000);
 const showErrors = errs => toast('<b>Please fix these first:</b><ul>' + errs.map(e => `<li>${esc(e)}</li>`).join('') + '</ul>', 5000);
@@ -191,7 +192,7 @@ async function submitCode() {
     await createGift(state, code, { onProgress: progress, persist });
     closeCodeModal();
     render(false);
-    toast('🎉 Your link is ready! Copy it from the top of the page.', 5000);
+    toast('🎉 Your link is ready! Copy it, or make a cute QR for it.', 5000);
   } catch (e) {
     if (e.reason) {             // problem with the code: keep the dialog open
       toast('', 1);
@@ -247,21 +248,20 @@ function onClick(e) {
     case 'mv-img': move(imgs); changed(); break;
     case 'reset':
       if (!confirm('Start a new gift? The form will be cleared.' + (getLink()
-        ? " Your current link keeps working, and you can edit it again later with your code. A new gift needs a new code."
+        ? ' Your current link keeps working, and you can edit it again later with your code. A new gift needs a new code.'
         : ''))) return;
       state = blank(); setLink(null); clearDraft(); render(false); break;
     case 'preview': {
       const errs = validate(state);
-      if (errs.length) return toast('<b>Please fix these first:</b><ul>' + errs.map(x => `<li>${esc(x)}</li>`).join('') + '</ul>', 5000);
+      if (errs.length) return showErrors(errs);
       startGift(clone(state), { preview: true, onBack: () => render(false) });
       break;
     }
     case 'publish': publish(); break;
-    case 'copy-link': {
-      const inp = document.getElementById('linkUrl');
-      const done = () => toast('📋 Link copied!');
-      const fallback = () => { inp.select(); document.execCommand('copy'); done(); };
-      navigator.clipboard ? navigator.clipboard.writeText(inp.value).then(done, fallback) : fallback();
+    case 'copy-link': copyText(document.getElementById('linkUrl').value, () => toast('📋 Link copied!')); break;
+    case 'qr': {
+      const link = getLink();
+      if (link) openQrMaker({ url: linkUrl(link.id), to: state.to, theme: state.theme });
       break;
     }
   }

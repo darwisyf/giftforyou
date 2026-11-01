@@ -46,3 +46,12 @@ export function loadScript(src, attrs = {}) {
 /* Resolves to null if the promise takes longer than ms */
 export const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(() => r(null), ms))]);
 
+/* Copy text to the clipboard (with a fallback for older browsers) */
+export function copyText(text, done) {
+  const fallback = () => {
+    const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t);
+    t.select(); document.execCommand('copy'); t.remove(); done && done();
+  };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => done && done(), fallback);
+  else fallback();
+}

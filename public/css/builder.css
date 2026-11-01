@@ -55,6 +55,7 @@ textarea.inp{resize:vertical;min-height:110px;line-height:1.6}
 .linkbtns a{text-decoration:none}
 .mgrid{display:grid;grid-template-columns:1fr 150px;gap:14px}
 .btn:disabled{opacity:.6;cursor:wait;transform:none}
+
 /* ---------- Access code dialog ---------- */
 .modal{position:fixed;inset:0;background:rgba(20,8,16,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px;z-index:300;animation:fadein .2s}
 @keyframes fadein{from{opacity:0}}

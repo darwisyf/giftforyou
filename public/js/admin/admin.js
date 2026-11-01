@@ -1,5 +1,5 @@
 // Admin page: generate access codes and see which ones were used
-import { esc, toast } from '../core/utils.js';
+import { esc, toast, copyText } from '../core/utils.js';
 
 const app = document.getElementById('app');
 const PW_KEY = 'wishy.admin.pw';
@@ -32,15 +32,7 @@ ${editorLink(c)}
 
 Fill in the form, then press "Create link". Your code is used once to create your gift link, and you can update it for free after that. To edit later from another phone, just open the editor link above again.`;
 
-function copy(text, what = 'Copied') {
-  const done = () => toast('📋 ' + what);
-  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
-  else fallback(text, done);
-}
-function fallback(text, done) {
-  const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t);
-  t.select(); document.execCommand('copy'); t.remove(); done();
-}
+const copy = (text, what = 'Copied') => copyText(text, () => toast('📋 ' + what));
 
 /* ---------------- Screens ---------------- */
 function renderLogin(msg = '') {

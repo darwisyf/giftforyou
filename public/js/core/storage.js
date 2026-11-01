@@ -1,4 +1,4 @@
-// What's remembered on this device: the draft, and the link it was published to
+// What's remembered on this device: the draft, the link it was published to, and an unused code
 import { normalize } from './model.js';
 
 const DRAFT_KEY = 'bdayWish.draft.v1';

@@ -109,6 +109,7 @@ export function linkCard(url, to) {
       <button class="btn btn-primary" data-action="copy-link">📋 Copy</button>
     </div>
     <div class="linkbtns">
+      <button class="btn btn-primary" data-action="qr">💝 Make a cute QR</button>
       <a class="btn btn-ghost" href="${esc(url)}" target="_blank" rel="noopener">Open ↗</a>
       <a class="btn btn-ghost" href="https://wa.me/?text=${encodeURIComponent('🎂 I made something for you: ' + url)}" target="_blank" rel="noopener">💬 Share on WhatsApp</a>
     </div>
